@@ -1,19 +1,15 @@
 // VARIABLES
 // ==========================================================================
 
-var carMakeandModel = ["Nissan Sentra", "GMC Sierra", "Jeep Grand Cherokee", "Jeep Cherokee", "Jeep Wrangler", "Toyota Highlander"];
+var carMakeandModel = ["Ford F150","Toyota Rav4","Chevrolet Silverado","Nissan Rogue","Honda CRV","Toyota Camry","Honda Civic","Chevrolet Equinox","Toyota Corolla","Ford Escape","Honda Accord","Ford Explorer","Nissan Altima","Toyota Tacoma", "Nissan Sentra", "GMC Sierra", "Jeep Grand Cherokee", "Jeep Cherokee", "Jeep Wrangler", "Toyota Highlander"];
 
-var directionsText = document.getElementById("directions-text");
+var directionsText1 = document.getElementById("directions-text1");
 var computerChoiceText = document.getElementById("computerchoice-text");
-var userChoiceText = document.getElementById("userchoice-text");
+var incorrectKeysText = document.getElementById("incorrect-keys");
 var userWinsText = document.getElementById("user-wins-text");
 
-// ****Processing starts here****
-
-// Randomly chooses a choice from the options array. This is the Computer's guess.
-
 // Set the first iteration boolean to true;
-var firstIteration = 1;
+var firstIteration = true;
 // Set the reamining unfilled letters to 0;
 var remainingCounter = 0;
 // Create a String array and push each character into an array.
@@ -27,99 +23,75 @@ var randomNUmber;
 
 // This function is run whenever the user presses a key.
 document.onkeyup = function(event) {
-    //alert("computers original guess just after entering onkeyup:   " + computerGuess);
-    //alert("random number was:" + randomNUmber);
     userWinsText.textContent = "";
     
     // Determines which key was pressed.
     userGuess = event.key;
     userGuess = String(userGuess);
-    //alert(userGuess);
+    userGuess.toLocaleLowerCase();
 
-if (firstIteration === 1) {
-    // alert("start of first iteration");
-    randomNUmber = Math.floor(Math.random() * carMakeandModel.length);
-    computerGuess = carMakeandModel[randomNUmber];
-    
-    // Create a String array and push each character into an array.
-    computerGuessArray = [];
-    // var MOdifiedComputerGuessArray = [];
-    userGuessArray = [];
-    for (i = 0; i < computerGuess.length; i++){
-        computerGuessArray.push(computerGuess.slice(i, i+1))
-    }
-    //alert("ComputerGuessArray" + computerGuessArray);
-    
-    // Replace the characters of the string with _
-    for (i = 0; i < computerGuessArray.length; i++){
-        if (computerGuessArray[i] == " ")  {
-            computerGuessArray[i] = " - ";
+    if (firstIteration == true) {
+        randomNUmber = Math.floor(Math.random() * carMakeandModel.length);
+        computerGuess = carMakeandModel[randomNUmber];
+        
+        // Create a String array and push each character into an array.
+        computerGuessArray = [];
+        userGuessArray = [];
+        for (i = 0; i < computerGuess.length; i++){
+            computerGuessArray.push(computerGuess.slice(i, i+1))
         }
-        else {
-            computerGuessArray[i] = " _ ";
-        }
-    }
-    
-    // Convert the array back to string.
-    // MOdifiedComputerGuess = computerGuessArray.join(" ");
-    computerChoiceText.textContent = "Here's the word(Hyphens(-) are actually spaces in the word):    " + computerGuessArray.join(" ");
-    
-    computerGuessArray = [];
-    for (i = 0; i < computerGuess.length; i++){
-        computerGuessArray.push(computerGuess.slice(i, i+1))
-    }
-    //alert("end of first iteration")
-    //alert("computers original guess1:   " + computerGuess);
-    //alert("end of first iteration")
-}
-    // Rebuild the array since it was modified to have only '_'.
-    // computerGuessArray = [];
-    // for (i = 0; i < computerGuess.length; i++){
-    //     computerGuessArray.push(computerGuess.slice(i, i+1))
-    // }
-
-    //alert("computers original guess1:   " + computerGuess);
-
-    // If user entered letter is there in the word the perform the following
-    //alert("computers original guess before entering if loop:   " + computerGuess);
-    if (firstIteration != 1){
-
-        firstIteration = 0;
-        // if (LetterPositionInWord >= 0) {
-      //  alert("computers original guess2:   " + computerGuess);
-      //  alert("Remind me of the user guess:  " + userGuess);
-            
+        
+        // Replace the characters of the string with _
         for (i = 0; i < computerGuessArray.length; i++){
-            if (computerGuessArray[i] == userGuess) {
-                userGuessArray[i] = userGuess;
-        //    alert("Inside If" + userGuessArray[i]);
-            }
-            else if( computerGuessArray[i] == userGuessArray[i]){
-                userGuessArray[i] = computerGuessArray[i];
-            }
-            else if (computerGuessArray[i] == " ")  {
-                userGuessArray[i] = " - ";
+            if (computerGuessArray[i] == " ")  {
+                computerGuessArray[i] = " - ";
             }
             else {
-                userGuessArray[i] = " _ ";
-                remainingCounter++;
+                computerGuessArray[i] = " _ ";
             }
         }
 
-        if (remainingCounter === 0){
-            computerChoiceText.textContent = "Here's the word(Hyphens(-) are spaces in the word:    " + userGuessArray.join(" ");
-            userWinsText.textContent = "You Win! Good job!. Press any key to restart the game";
-            firstIteration = 1;
+        // Convert the array back to string.
+        computerChoiceText.textContent = "Here's the word(Note: hyphens(-) represent spaces):    " + computerGuessArray.join(" ");
+        
+        // Rebuild the computer guessed array.
+        computerGuessArray = [];
+        for (i = 0; i < computerGuess.length; i++){
+            computerGuessArray.push(computerGuess.slice(i, i+1))
         }
-        else {
-            computerChoiceText.textContent = "Here's the word(Hyphens(-) are spaces in the word:    " + userGuessArray.join(" ");
+        
+    }
+    if (firstIteration == false){
+        if (userGuess != " "){
+            for (i = 0; i < computerGuessArray.length; i++){
+                if (computerGuessArray[i].toLocaleLowerCase() == userGuess) {
+                    userGuessArray[i] = computerGuessArray[i];
+                }
+                else if( computerGuessArray[i] == userGuessArray[i]){
+                    userGuessArray[i] = computerGuessArray[i];
+                }
+                else if (computerGuessArray[i] == " ")  {
+                    userGuessArray[i] = " - ";
+                }
+                else {
+                    userGuessArray[i] = " _ ";
+                    remainingCounter++;
+                }
+            }
+    
+            if (remainingCounter === 0){
+                computerChoiceText.textContent = "Here's the word(Note: hyphens(-) represent spaces):    " + userGuessArray.join(" ");
+                userWinsText.textContent = "You Win! Good job!.Press any key to restart the game";
+                firstIteration = true;
+            }
+            else {
+                computerChoiceText.textContent = "Here's the word(Note: hyphens(-) represent spaces):    " + userGuessArray.join(" ");
+                directionsText1.textContent = " ";
+            }
+            remainingCounter = 0;
         }
-        remainingCounter = 0;
     }
     else{
-        firstIteration = 0;
-        // alert("Fisrt Iteration: " + firstIteration);
-        // alert("computers original guess - First Iteration reset:   " + computerGuess);
+        firstIteration = false;
     }
-    return false;
 }
