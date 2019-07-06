@@ -81,7 +81,9 @@ document.onkeyup = function(event) {
     
             if (remainingCounter === 0){
                 computerChoiceText.textContent = "Here's the word(Note: hyphens(-) represent spaces):    " + userGuessArray.join(" ");
+                computerChoiceText.style.color = "green";
                 userWinsText.textContent = "You Win! Good job!.Press any key to restart the game";
+                userWinsText.style.color = "blue";
                 firstIteration = true;
             }
             else {
