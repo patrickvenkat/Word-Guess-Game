@@ -1,12 +1,13 @@
 // VARIABLES
 // ==========================================================================
 
-var carMakeandModel = ["Ford F150","Toyota Rav4","Chevrolet Silverado","Nissan Rogue","Honda CRV","Toyota Camry","Honda Civic","Chevrolet Equinox","Toyota Corolla","Ford Escape","Honda Accord","Ford Explorer","Nissan Altima","Toyota Tacoma", "Nissan Sentra", "GMC Sierra", "Jeep Grand Cherokee", "Jeep Cherokee", "Jeep Wrangler", "Toyota Highlander"];
+var carMakeandModel = ["Ford F150","Toyota Rav4","Chevrolet Silverado","Nissan Rogue","Honda CRV","Toyota Camry","Honda Civic","Chevrolet Equinox","Toyota Corolla","Ford Escape","Honda Accord","Ford Explorer","Nissan Altima","Toyota Tacoma", "Nissan Sentra", "Jeep Grand Cherokee", "Jeep Cherokee", "Jeep Wrangler", "Toyota Highlander"];
 
 var directionsText1 = document.getElementById("directions-text1");
 var computerChoiceText = document.getElementById("computerchoice-text");
 var incorrectKeysText = document.getElementById("incorrect-keys");
 var userWinsText = document.getElementById("user-wins-text");
+var winningImage = document.getElementById("winning-image");
 
 // Set the first iteration boolean to true;
 var firstIteration = true;
@@ -23,7 +24,10 @@ var randomNUmber;
 
 // This function is run whenever the user presses a key.
 document.onkeyup = function(event) {
+    //Reset the values for a new game
     userWinsText.textContent = "";
+    winningImage.textContent = "";
+    computerChoiceText.style.color = "black";
     
     // Determines which key was pressed.
     userGuess = event.key;
@@ -62,6 +66,8 @@ document.onkeyup = function(event) {
         
     }
     if (firstIteration == false){
+        // If user did not press the space bar, then continue. 
+        // This entire block is to progressively replace the _ with the guesses
         if (userGuess != " "){
             for (i = 0; i < computerGuessArray.length; i++){
                 if (computerGuessArray[i].toLocaleLowerCase() == userGuess) {
@@ -78,12 +84,13 @@ document.onkeyup = function(event) {
                     remainingCounter++;
                 }
             }
-    
+            // If no more _ left to fill, then the game is over.
             if (remainingCounter === 0){
                 computerChoiceText.textContent = "Here's the word(Note: hyphens(-) represent spaces):    " + userGuessArray.join(" ");
                 computerChoiceText.style.color = "green";
                 userWinsText.textContent = "You Win! Good job!.Press any key to restart the game";
                 userWinsText.style.color = "blue";
+                winningImage.innerHTML = "<img src='assets/images/" + computerGuess + ".jpg'/>\"";
                 firstIteration = true;
             }
             else {
